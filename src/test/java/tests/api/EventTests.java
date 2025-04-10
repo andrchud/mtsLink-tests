@@ -16,8 +16,7 @@ import tests.api.model.event.*;
 import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static tests.api.specs.ApiSpecs.requestSpec;
-import static tests.api.specs.ApiSpecs.responseSpec;
+import static tests.api.specs.ApiSpecs.*;
 
 @Epic("Api")
 @Feature("Мероприятия")
@@ -38,15 +37,14 @@ public class EventTests extends TestBase {
         CreateEventTemplateRequestModel createEventTemplateRequest = new CreateEventTemplateRequestModel(testData.eventName, accessSettings);
 
         CreateEventTemplateResponseModel response = step("Создать шаблон для мероприятия", () ->
-                given(requestSpec)
+                given(baseRequestSpec)
                         .cookie("sessionId", sessionId)
                         .contentType("application/json")
                         .body(createEventTemplateRequest)
                         .when()
                         .post("/event")
                         .then()
-                        .spec(responseSpec)
-                        .statusCode(201))
+                        .spec(createdResponseSpec))
                 .extract().as(CreateEventTemplateResponseModel.class);
 
         step("Проверить данные в ответе", () -> {
@@ -57,7 +55,7 @@ public class EventTests extends TestBase {
 
     @Test
     @DisplayName("Создание быстрой встречи")
-    @Severity(SeverityLevel.BLOCKER)
+    @Severity(SeverityLevel.CRITICAL)
     void createEventTest() {
         CreateEventTemplateRequestModel.AccessSettingsModel accessSettings = new CreateEventTemplateRequestModel.AccessSettingsModel(false, false, false);
         CreateEventTemplateRequestModel createEventTemplateRequest = new CreateEventTemplateRequestModel(testData.eventName, accessSettings);
@@ -68,15 +66,14 @@ public class EventTests extends TestBase {
                 eventApi.getEventId(sessionId, createEventTemplateRequest));
 
         CreateEventResponseModel response = step("Создать быструю встречу", () ->
-                given(requestSpec)
+                given(baseRequestSpec)
                         .cookie("sessionId", sessionId)
                         .contentType("application/json")
                         .body(createEventRequest)
                         .when()
                         .post("/event/" + eventId + "/session")
                         .then()
-                        .spec(responseSpec)
-                        .statusCode(201))
+                        .spec(createdResponseSpec))
                 .extract().as(CreateEventResponseModel.class);
 
         step("Проверить данные в ответе", () -> {

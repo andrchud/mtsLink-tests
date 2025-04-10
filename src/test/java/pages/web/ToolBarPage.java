@@ -19,9 +19,9 @@ public class ToolBarPage {
             profileButton = $(byAttribute("data-testid", "Meetings.PageTopBar.User.profile")),
             logoutButton = $(byAttribute("data-testid", "Meetings.PageTopBar.User.logout"));
 
-    @Step("Открыть страницу")
-    public ToolBarPage openPage(String url) {
-        open(url);
+    @Step("Открыть страницу /meetings")
+    public ToolBarPage openPage() {
+        open("/meetings");
         return this;
     }
 

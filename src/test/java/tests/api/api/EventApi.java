@@ -6,43 +6,40 @@ import tests.api.model.event.CreateEventTemplateRequestModel;
 import tests.api.model.event.DeleteEventRequestModel;
 
 import static io.restassured.RestAssured.given;
-import static tests.api.specs.ApiSpecs.requestSpec;
-import static tests.api.specs.ApiSpecs.responseSpec;
+import static tests.api.specs.ApiSpecs.*;
 
 public class EventApi {
     public String getEventId(String sessionId, CreateEventTemplateRequestModel createEventTemplateRequest) {
-        return given(requestSpec)
+        return given(baseRequestSpec)
                 .cookie("sessionId", sessionId)
                 .contentType("application/json")
                 .body(createEventTemplateRequest)
                 .when()
                 .post("/event")
                 .then()
-                .spec(responseSpec)
+                .spec(successResponseSpec)
                 .extract().path("id").toString();
     }
 
     public void createEvent(String sessionId, CreateEventRequestModel createEventRequest, String eventId) {
-        given(requestSpec)
+        given(baseRequestSpec)
                 .cookie("sessionId", sessionId)
                 .contentType("application/json")
                 .body(createEventRequest)
                 .when()
                 .post("/event/" + eventId + "/session")
                 .then()
-                .spec(responseSpec)
-                .statusCode(201);
+                .spec(createdResponseSpec);
     }
 
     public void deleteEvent(String sessionId, DeleteEventRequestModel deleteEventRequest, String eventId) {
-        given(requestSpec)
+        given(baseRequestSpec)
                 .cookie("sessionId", sessionId)
                 .contentType("application/x-www-form-urlencoded; charset=UTF-8")
                 .body(deleteEventRequest.convertToBody())
                 .when()
                 .delete("/event/" + eventId)
                 .then()
-                .spec(responseSpec)
-                .statusCode(204);
+                .spec(deleteResponseSpec);
     }
 }

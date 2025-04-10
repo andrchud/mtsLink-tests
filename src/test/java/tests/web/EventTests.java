@@ -33,7 +33,7 @@ public class EventTests extends TestBase{
     @DisplayName("Запуск быстрой встречи")
     @Severity(SeverityLevel.BLOCKER)
     void createFastMeetingTest() {
-        eventPage.openPage("/meetings")
+        eventPage.openPage()
                 .clickStartFastMeetingButton()
                 .checkPublisherVisible()
                 .clickJoinMeetingButton()
@@ -44,9 +44,9 @@ public class EventTests extends TestBase{
     @Test
     @WithLogin
     @DisplayName("Запуск запланированной встречи")
-    @Severity(SeverityLevel.BLOCKER)
+    @Severity(SeverityLevel.CRITICAL)
     void  createScheduleMeetingTest() {
-        eventPage.openPage("/meetings")
+        eventPage.openPage()
                 .clickScheduleButton()
                 .clickScheduleMeetingButton()
                 .clickGoToEventButton()
@@ -60,9 +60,9 @@ public class EventTests extends TestBase{
     @Test
     @WithLogin
     @DisplayName("Запуск постоянной встречи")
-    @Severity(SeverityLevel.BLOCKER)
+    @Severity(SeverityLevel.CRITICAL)
     void  createScheduleEndlessMeetingTest() {
-        eventPage.openPage("/meetings")
+        eventPage.openPage()
                 .clickScheduleButton()
                 .clickScheduleEndlessMeetingButton()
                 .clickGoToEventButton()
@@ -75,9 +75,9 @@ public class EventTests extends TestBase{
     @Test
     @WithLogin
     @DisplayName("Нельзя создать встречу без названия")
-    @Severity(SeverityLevel.BLOCKER)
+    @Severity(SeverityLevel.CRITICAL)
     void  errorCreateMeetingWithOutNameTest() {
-        eventPage.openPage("/meetings")
+        eventPage.openPage()
                 .clickScheduleButton()
                 .clickScheduleMeetingButton()
                 .clearNameEventInput()

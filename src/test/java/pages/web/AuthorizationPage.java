@@ -17,9 +17,9 @@ public class AuthorizationPage {
             profileImage = $(byAttribute("data-testid", "Meetings.c.User"));
 
 
-    @Step("Открыть страницу")
-    public AuthorizationPage openPage(String url) {
-        open(url);
+    @Step("Открыть страницу /signin")
+    public AuthorizationPage openPage() {
+        open("/signin");
         return this;
     }
 

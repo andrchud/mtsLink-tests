@@ -11,7 +11,11 @@ repositories {
     mavenCentral()
 }
 
-def allureVersion = "2.29.1"
+def allureVersion = "2.27.0",
+selenideVersion = "6.13.0",
+restVersion = "5.3.1",
+junitVersion = "5.10.2",
+sl4jVersion = "2.0.13"
 
 allure {
     report {
@@ -32,17 +36,20 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.38'
     annotationProcessor 'org.projectlombok:lombok:1.18.38'
     testImplementation(
-            "com.codeborne:selenide:7.8.0",
+            "com.codeborne:selenide:$selenideVersion",
             "io.qameta.allure:allure-selenide:$allureVersion",
-            "io.rest-assured:rest-assured:5.5.1",
-            "io.rest-assured:json-schema-validator:5.5.1",
+            "io.rest-assured:rest-assured:$restVersion",
+            "io.rest-assured:json-schema-validator:$restVersion",
             "io.qameta.allure:allure-rest-assured:$allureVersion",
-            "org.junit.jupiter:junit-jupiter:5.13.0-M2",
-            "org.slf4j:slf4j-simple:2.0.17",
-            "org.assertj:assertj-core:4.0.0-M1",
+            "org.junit.jupiter:junit-jupiter:$junitVersion",
+            "org.slf4j:slf4j-simple:$sl4jVersion",
+            "org.assertj:assertj-core:3.26.0",
             "org.aeonbits.owner:owner:1.0.12",
-            "com.github.javafaker:javafaker:1.0.2"
+            "com.github.javafaker:javafaker:1.0.2",
+            "io.appium:java-client:8.3.0",
+            "commons-io:commons-io:2.14.0"
     )
+    runtimeOnly 'org.aspectj:aspectjweaver:1.9.22.1'
 }
 
 tasks.withType(JavaCompile) {
@@ -51,6 +58,7 @@ tasks.withType(JavaCompile) {
 
 tasks.withType(Test) {
     useJUnitPlatform()
+    systemProperties(System.getProperties())
 
     testLogging {
         lifecycle {
@@ -63,9 +71,18 @@ tasks.withType(Test) {
 tasks.withType(JavaCompile) {
     options.compilerArgs.add("--add-opens=java.base/java.lang=ALL-UNNAMED")
 }
-//
-//task api_test(type: Test) {
-//    useJUnitPlatform {
-//        includeTags("API")
-//    }
-//}
+
+tasks.register('android', Test) {
+    useJUnitPlatform {
+        includeTags("android")
+    }}
+tasks.register('web', Test) {
+    useJUnitPlatform {
+        includeTags("web")
+    }
+}
+tasks.register('api', Test) {
+    useJUnitPlatform {
+        includeTags("api")
+    }
+}

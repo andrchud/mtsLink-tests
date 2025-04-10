@@ -17,10 +17,8 @@ public class TestData {
             phone = faker.phoneNumber().subscriberNumber(10),
             organization = faker.company().name(),
             position = faker.company().profession(),
-            description = "1) Character - " + faker.gameOfThrones().character() +
-                    " 2) City - " + faker.gameOfThrones().city() +
-                    " 3) Dragon - " + faker.gameOfThrones().dragon() +
-                    " 4) House - " + faker.gameOfThrones().house(),
-            eventName = faker.harryPotter().spell();
+            description = "Character = " + faker.backToTheFuture().character() +
+                    "Date = " + faker.backToTheFuture().date(),
+            eventName = faker.elderScrolls().race();
 
 }

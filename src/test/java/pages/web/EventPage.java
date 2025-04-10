@@ -8,8 +8,7 @@ import tests.api.model.event.DeleteEventRequestModel;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selectors.*;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.*;
 
 public class EventPage extends PageBase {
 
@@ -26,11 +25,12 @@ public class EventPage extends PageBase {
             errorNameEventMessage = $(byText("Название не может быть пустым")),
             publisher = $(byAttribute("data-testid", "PrepareVCS.microphone.select")),
             joinMeetingButton = $(byText("Присоединиться к встрече")),
-            vcs = $(byAttribute("data-testid", "StreamTopBar.topbarButton.reportIssue"));
+            vcs = $(byAttribute("data-testid", "StreamTopBar.topbarButton.reportIssue")),
+            redirectChatButton = $(byAttribute("data-testid", "Meetings.Item.courses"));
 
-    @Step("Открыть страницу")
-    public EventPage openPage(String url) {
-        open(url);
+    @Step("Открыть страницу /meetings")
+    public EventPage openPage() {
+        open("/meetings");
         return this;
     }
 
@@ -98,6 +98,12 @@ public class EventPage extends PageBase {
     @Step("Проверить отображение своей ВКС")
     public EventPage checkVCSVisible() {
         vcs.shouldHave(visible);
+        return this;
+    }
+
+    @Step("Нажать кнопку Курсы")
+    public EventPage clickRedirectCourseButton() {
+        redirectChatButton.click();
         return this;
     }
 

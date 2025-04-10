@@ -13,8 +13,7 @@ import tests.api.model.account.LoginRequestModel;
 
 import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.given;
-import static tests.api.specs.ApiSpecs.requestSpec;
-import static tests.api.specs.ApiSpecs.responseSpec;
+import static tests.api.specs.ApiSpecs.*;
 
 @Epic("Api")
 @Feature("Личный кабинет")
@@ -32,14 +31,14 @@ public class AccountTest extends TestBase {
         LoginRequestModel loginRequest = new LoginRequestModel(testData.email, testData.password, true);
 
         step("Авторизоваться по почте и паролю", () ->
-                given(requestSpec)
+                given(baseRequestSpec)
                         .contentType("application/x-www-form-urlencoded; charset=utf-8")
                         .body(loginRequest.convertToBody())
                         .when()
                         .post("/login")
                         .then()
-                        .spec(responseSpec)
-                        .statusCode(200));
+                        .spec(successResponseSpec)
+        );
     }
 
     @Test
@@ -47,14 +46,14 @@ public class AccountTest extends TestBase {
     @Severity(SeverityLevel.BLOCKER)
     void logoutTest() {
         step("Выйти из аккаунта", () ->
-                given(requestSpec)
+                given(baseRequestSpec)
                         .cookie("sessionId", sessionId)
                         .contentType("application/x-www-form-urlencoded; charset=utf-8")
                         .when()
                         .post("/logout")
                         .then()
-                        .spec(responseSpec)
-                        .statusCode(204));
+                        .spec(logoutResponseSpec)
+        );
     }
 
 }
